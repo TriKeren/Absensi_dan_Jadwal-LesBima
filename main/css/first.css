@@ -1,0 +1,79 @@
+body {
+            background: linear-gradient(135deg, #1a1e3d 0%, #3e327a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .card-main {
+            background-color: #fdfae6;
+            color: #888;
+            border: none;
+            padding: 30px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .btn-navy {
+            background-color: #101c44;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        .btn-navy:hover {
+            background-color: #080b1a;
+            color: white;
+        }
+
+        .modal-content {
+            background-color: #d9d9d9;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .btn-guru {
+            background-color: #101c44;
+            color: white;
+            margin-bottom: 10px;
+            border-radius: 6px;
+        }
+
+        .btn-murid {
+            background-color: #7e6bb3;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .btn-guru:hover {
+            background-color: #101c44;
+            color: white;
+            opacity: 1;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-murid:hover {
+            background-color: #7e6bb3;
+            color: white;
+            opacity: 1;
+            transform: none;
+            box-shadow: none;
+        }
+
+        @media (min-width: 768px) {
+            .card-main {
+                max-width: 500px;
+                padding: 40px;
+            }
+
+            .btn-navy {
+                width: auto;
+                padding: 10px 60px;
+            }
+        }
