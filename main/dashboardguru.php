@@ -258,7 +258,7 @@ tr:hover { background: #f1f7ff; }
                     <span class="material-symbols-outlined">calendar_month</span>
                     <span>Jadwal</span>
                 </a></li>
-                <li><a href="#">
+                <li><a href="pertemuanguru.php">
                     <span class="material-symbols-outlined">description</span>
                     <span>Pertemuan</span>
                 </a></li>
