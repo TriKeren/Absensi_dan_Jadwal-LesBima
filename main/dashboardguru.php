@@ -17,6 +17,7 @@
 
 body {
     background: #0a0a0a;
+    height: 100vh;
     overflow: hidden; /* Mencegah scroll pada seluruh halaman */
 }
 
@@ -25,56 +26,89 @@ body {
     height: 100vh;
 }
 
-/* 2. SIDEBAR */
-.sidebar {
-    width: 260px;
-    height: 100vh;
-    background: linear-gradient(to bottom, #003c96, #001d59);
-    padding: 20px 15px;
-    color: white;
-    flex-shrink: 0; /* Sidebar tidak akan mengecil */
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:linear-gradient(to bottom,#003c96,#001d59);
+    padding:20px 15px;
+    color:white;
 }
 
-.logo-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 25px;
+/* LOGO */
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:25px;
 }
 
-.logo-box .material-symbols-outlined { font-size: 45px; }
-
-.logo-text h2 { font-size: 20px; font-weight: bold; line-height: 1.2; }
-
-.role-btn {
-    width: 100%;
-    background: linear-gradient(to right, #2c7dff, #2568df);
-    border: none;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    cursor: pointer;
+.logo-box .material-symbols-outlined{
+    font-size:45px;
 }
 
-.menu { list-style: none; }
-.menu li { margin-bottom: 8px; }
-.menu a {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 10px;
-    transition: 0.3s;
+.logo-text h2{
+    font-size:22px;
+    font-weight:bold;
+    line-height:1.2;
 }
 
-.menu a.active { background: rgba(255, 255, 255, 0.2); }
-.menu a:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(5px); }
+.logo-text p{
+    font-size:14px;
+    opacity:0.9;
+}
 
+/* ROLE BUTTON */
+.role-btn{
+    width:100%;
+    background:linear-gradient(to right,#2c7dff,#2568df);
+    border:none;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    padding:15px;
+    border-radius:18px;
+    margin-bottom:25px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* MENU */
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin-bottom:10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    color:white;
+    padding:14px 16px;
+    border-radius:14px;
+    font-size:18px;
+    transition:0.3s;
+}
+
+/* ACTIVE */
+.menu a.active{
+    background:linear-gradient(to right,#1f63db,#245ec5);
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* HOVER */
+.menu a:hover{
+    background:rgba(255,255,255,0.08);
+    transform:translateX(5px);
+}
+
+.menu .material-symbols-outlined{
+    font-size:28px;
+}
 /* 3. AREA KONTEN UTAMA */
 .content {
     flex: 1;
