@@ -1,0 +1,252 @@
+     *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #0a0a0a;
+    height: 100vh;
+    overflow: hidden; /* Mencegah scroll pada seluruh halaman */
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:linear-gradient(to bottom,#003c96,#001d59);
+    padding:20px 15px;
+    color:white;
+}
+
+/* LOGO */
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.logo-box .material-symbols-outlined{
+    font-size:45px;
+}
+
+.logo-text h2{
+    font-size:22px;
+    font-weight:bold;
+    line-height:1.2;
+}
+
+.logo-text p{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* ROLE BUTTON */
+.role-btn{
+    width:100%;
+    background:linear-gradient(to right,#2c7dff,#2568df);
+    border:none;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    padding:15px;
+    border-radius:18px;
+    margin-bottom:25px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* MENU */
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin-bottom:10px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    color:white;
+    padding:14px 16px;
+    border-radius:14px;
+    font-size:18px;
+    transition:0.3s;
+}
+
+/* ACTIVE */
+.menu a.active{
+    background:linear-gradient(to right,#1f63db,#245ec5);
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* HOVER */
+.menu a:hover{
+    background:rgba(255,255,255,0.08);
+    transform:translateX(5px);
+}
+
+.menu .material-symbols-outlined{
+    font-size:28px;
+}
+/* 3. AREA KONTEN UTAMA */
+.content {
+    flex: 1;
+    padding: 30px;
+    background-color: #f0f2f5;
+    overflow-y: auto; /* Area ini saja yang bisa di-scroll */
+}
+
+/* 4. KARTU STATISTIK (Top Section) */
+/* Container Utama Kartu Statistik */
+.stats-grid {
+    display: grid;
+    /* Membuat 4 kolom dengan lebar yang sama persis */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    /* Memberi jarak antar kartu agar tidak berdempetan */
+    gap: 25px; 
+    /* Memastikan grid menggunakan 100% lebar area konten kanan */
+    width: 100%; 
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+/* Detail Kartu Statistik */
+.stat-card {
+    padding: 25px;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Teks dan ikon rata kiri */
+    justify-content: center;
+    min-height: 140px;
+    height: 100%;
+    /* Memberikan bayangan halus agar kartu terlihat terpisah dari background */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+/* Ukuran Ikon di dalam Kartu */
+.stat-card .material-symbols-outlined {
+    font-size: 35px;
+    margin-bottom: 15px; /* Memberi jarak antara ikon dan angka */
+}
+
+/* Ukuran Angka */
+.stat-number {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+}
+
+/* Label Teks */
+.stat-label {
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Warna Kartu */
+.purple { background: #6f42c1; }
+.light-purple { background: #845ef7; }
+.green { background: #2fb380; }
+.orange { background: #fd7e14; }
+
+/* 5. BAGIAN TENGAH (Jadwal & Absensi) */
+.middle-section {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* Jadwal lebih lebar sedikit */
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.info-card {
+    background: white;
+    color: #333;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.schedule-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* 6. GRAFIK ABSENSI */
+.chart-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.circle {
+    width: 130px;
+    height: 130px;
+    border: 12px solid #e0e0e0;
+    border-top: 12px solid #2fb380;
+    border-right: 12px solid #2fb380;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.circle span { font-size: 14px; color: #888; }
+
+/* 7. TABEL JADWAL */
+.table-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    text-align: left;
+    padding: 15px;
+    background: #f8f9fa;
+    color: #666;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+tr:hover { background: #f1f7ff; }
