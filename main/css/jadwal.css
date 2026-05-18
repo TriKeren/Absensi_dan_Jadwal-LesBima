@@ -1,0 +1,135 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  background:#f5f7fb;
+}
+
+.container{
+  display:flex;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:250px;
+  background:white;
+  padding:20px;
+  border-right:1px solid #ddd;
+}
+
+.logo{
+  background:#15803d;
+  color:white;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.menu{
+  list-style:none;
+}
+
+.menu li{
+  padding:14px;
+  margin-bottom:10px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.menu .active{
+  background:#dcfce7;
+  color:#15803d;
+  font-weight:600;
+}
+
+/* CONTENT */
+
+.content{
+  flex:1;
+  padding:30px;
+}
+
+.content h2{
+  margin-bottom:20px;
+}
+
+/* CARD */
+
+.schedule-card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.icon{
+  width:55px;
+  height:55px;
+  border-radius:12px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:20px;
+}
+
+.blue{
+  background:#2563eb;
+}
+
+.green{
+  background:#16a34a;
+}
+
+.info{
+  flex:1;
+}
+
+.schedule-card button{
+  border:none;
+  background:none;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* DETAIL */
+
+.detail-box{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+}
+
+.meeting{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+.done{
+  background:#dcfce7;
+}
+
+.pending{
+  background:#fef3c7;
+}
+
+.meeting span{
+  background:white;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+}

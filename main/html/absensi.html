@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Page Absensi</title>
+
+  <link rel="stylesheet" href="absensi.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>Isi Absensi</h2>
+
+    <div class="option active">
+      <input type="radio" checked>
+
+      <div>
+        <h3>Hadir</h3>
+        <p>Saya hadir di pertemuan ini</p>
+      </div>
+    </div>
+
+    <div class="option">
+      <input type="radio">
+
+      <div>
+        <h3>Izin</h3>
+        <p>Saya izin tidak hadir</p>
+      </div>
+    </div>
+
+    <div class="option">
+      <input type="radio">
+
+      <div>
+        <h3>Alpha</h3>
+        <p>Saya tidak hadir tanpa keterangan</p>
+      </div>
+    </div>
+
+    <button>Kirim Absensi</button>
+
+  </div>
+
+</div>
+
+</body>
+</html>
