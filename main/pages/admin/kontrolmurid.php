@@ -39,6 +39,23 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
     }
 }
 
+if (isset($_POST['btn_update'])) {
+    $id_murid       = (int) $_POST['id_murid'];
+    $nama_murid     = mysqli_real_escape_string($koneksi, $_POST['nama_murid']);
+    $no_telepon     = mysqli_real_escape_string($koneksi, $_POST['no_telepon']);
+    $mata_pelajaran = mysqli_real_escape_string($koneksi, $_POST['mata_pelajaran']);
+
+    $query_update = "UPDATE murid SET nama_murid='$nama_murid', no_telepon='$no_telepon', mata_pelajaran='$mata_pelajaran' WHERE id_murid=$id_murid";
+    $hasil_update = mysqli_query($koneksi, $query_update);
+
+    if ($hasil_update) {
+        header("Location: kontrolmurid.php");
+        exit;
+    } else {
+        echo "<script>alert('Gagal mengupdate data!');</script>";
+    }
+}
+
 $query = "SELECT * FROM murid";
 $result = mysqli_query($koneksi, $query);
 $total_data = mysqli_num_rows($result);
@@ -507,8 +524,13 @@ $total_data = mysqli_num_rows($result);
                             <td><?= htmlspecialchars($row['mata_pelajaran']); ?></td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn-action btn-edit" title="Edit">
-                                        <i class="fa-solid fa-pencil"></i>
+                                    <button class="btn-action btn-edit" title="Edit"
+                                    data-id="<?= $row['id_murid']; ?>"
+                                    data-nama="<?= htmlspecialchars($row['nama_murid'], ENT_QUOTES); ?>"
+                                    data-telp="<?= htmlspecialchars($row['no_telepon'], ENT_QUOTES); ?>"
+                                    data-mapel="<?= htmlspecialchars($row['mata_pelajaran'], ENT_QUOTES); ?>"
+                                    onclick="bukaModalEdit(this)">
+                                    <i class="fa-solid fa-pencil"></i>
                                     </button>
                                     <a href="kontrolmurid.php?aksi=hapus&id=<?= $row['id_murid']; ?>"
                                        class="btn-action btn-delete"
@@ -560,15 +582,53 @@ $total_data = mysqli_num_rows($result);
         </form>
     </div>
 </div>
+<!-- MODAL EDIT MURID -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Data Murid</h3>
+        <form action="kontrolmurid.php" method="POST">
+            <input type="hidden" name="id_murid" id="edit_id">
+            <div class="form-group">
+                <label>Nama Murid</label>
+                <input type="text" name="nama_murid" id="edit_nama" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>No. Telepon</label>
+                <input type="text" name="no_telepon" id="edit_telp" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Mata Pelajaran</label>
+                <input type="text" name="mata_pelajaran" id="edit_mapel" class="form-control" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-batal" id="closeEditModalBtn">Batal</button>
+                <button type="submit" name="btn_update" class="btn-simpan">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
     const modal    = document.getElementById("tambahModal");
     const btnOpen  = document.getElementById("openModalBtn");
     const btnClose = document.getElementById("closeModalBtn");
+        const editModal     = document.getElementById("editModal");
+const btnCloseEdit  = document.getElementById("closeEditModalBtn");
 
     btnOpen.onclick  = () => modal.style.display = "flex";
     btnClose.onclick = () => modal.style.display = "none";
-    window.onclick   = (e) => { if (e.target === modal) modal.style.display = "none"; };
+    window.onclick   = (e) => { if (e.target === modal) modal.style.display = "none"; 
+           if (e.target === editModal)  editModal.style.display = "none";
+    };
+    function bukaModalEdit(btn) {
+    document.getElementById("edit_id").value    = btn.dataset.id;
+    document.getElementById("edit_nama").value  = btn.dataset.nama;
+    document.getElementById("edit_telp").value  = btn.dataset.telp;
+    document.getElementById("edit_mapel").value = btn.dataset.mapel;
+    editModal.style.display = "flex";
+}
+
+btnCloseEdit.onclick = () => editModal.style.display = "none";
 
     document.getElementById("searchInput").addEventListener("keyup", function() {
         const keyword = this.value.toLowerCase();

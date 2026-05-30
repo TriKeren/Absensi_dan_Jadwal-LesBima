@@ -26,9 +26,26 @@ if (isset($_POST['btn_simpan'])) {
     }
 }
 
+if (isset($_POST['btn_update'])) {
+    $id_guru        = (int) $_POST['id_guru'];
+    $nama_guru      = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
+    $no_telepon     = mysqli_real_escape_string($koneksi, $_POST['no_telepon']);
+    $mata_pelajaran = mysqli_real_escape_string($koneksi, $_POST['mata_pelajaran']);
+
+    $query_update = "UPDATE guru SET nama_guru='$nama_guru', no_telepon='$no_telepon', mata_pelajaran='$mata_pelajaran' WHERE id_guru=$id_guru";
+    $hasil_update = mysqli_query($koneksi, $query_update);
+
+    if ($hasil_update) {
+        header("Location: kontrolguru.php");
+        exit;
+    } else {
+        echo "<script>alert('Gagal mengupdate data!');</script>";
+    }
+}
+
 if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
     $id_guru = (int) $_GET['id'];
-    $query_hapus = "DELETE FROM guru WHERE id_guru = '$id_guru'";
+    $query_hapus = "DELETE FROM guru WHERE id_guru = $id_guru";
     $hasil_hapus = mysqli_query($koneksi, $query_hapus);
 
     if ($hasil_hapus) {
@@ -87,7 +104,6 @@ $total_data = mysqli_num_rows($result);
             padding: 24px 16px;
             display: flex;
             flex-direction: column;
-            gap: 0;
             flex-shrink: 0;
         }
 
@@ -306,10 +322,12 @@ $total_data = mysqli_num_rows($result);
         .col-aksi  { width: 15%; text-align: center; }
         th.col-aksi { text-align: center; }
 
+        /* ===== TOMBOL AKSI ===== */
         .action-buttons {
             display: flex;
             gap: 8px;
             justify-content: center;
+            align-items: center;
         }
 
         .btn-action {
@@ -317,14 +335,16 @@ $total_data = mysqli_num_rows($result);
             height: 36px;
             border: none;
             border-radius: 8px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: white;
+            color: white !important;
             font-size: 14px;
             text-decoration: none;
+            line-height: 1;
             transition: opacity 0.2s, transform 0.1s;
+            flex-shrink: 0;
         }
 
         .btn-action:hover  { opacity: 0.85; }
@@ -412,9 +432,7 @@ $total_data = mysqli_num_rows($result);
             transition: background 0.2s;
         }
 
-        .btn-batal:hover {
-            background-color: #f9fafb;
-        }
+        .btn-batal:hover { background-color: #f9fafb; }
 
         .btn-simpan {
             padding: 10px 22px;
@@ -429,9 +447,7 @@ $total_data = mysqli_num_rows($result);
             transition: background 0.2s;
         }
 
-        .btn-simpan:hover {
-            background-color: #1e40af;
-        }
+        .btn-simpan:hover { background-color: #1e40af; }
     </style>
 </head>
 <body>
@@ -445,7 +461,6 @@ $total_data = mysqli_num_rows($result);
             <div class="header-text">
                 <h3>SISTEM INFORMASI</h3>
                 <p>KURSUS &amp; ABSENSI</p>
-                <p>ADMIN</p>
             </div>
         </div>
 
@@ -509,7 +524,12 @@ $total_data = mysqli_num_rows($result);
                             <td><?= htmlspecialchars($row['mata_pelajaran']); ?></td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn-action btn-edit" title="Edit">
+                                    <button class="btn-action btn-edit" title="Edit"
+                                        data-id="<?= $row['id_guru']; ?>"
+                                        data-nama="<?= htmlspecialchars($row['nama_guru'], ENT_QUOTES); ?>"
+                                        data-telp="<?= htmlspecialchars($row['no_telepon'], ENT_QUOTES); ?>"
+                                        data-mapel="<?= htmlspecialchars($row['mata_pelajaran'], ENT_QUOTES); ?>"
+                                        onclick="bukaModalEdit(this)">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
                                     <a href="kontrolguru.php?aksi=hapus&id=<?= $row['id_guru']; ?>"
@@ -542,7 +562,7 @@ $total_data = mysqli_num_rows($result);
 <div id="tambahModal" class="modal">
     <div class="modal-content">
         <h3>Tambah Data Guru</h3>
-        <form action="guru.php" method="POST">
+        <form action="kontrolguru.php" method="POST">
             <div class="form-group">
                 <label>Nama Guru</label>
                 <input type="text" name="nama_guru" class="form-control" placeholder="Contoh: Bapak Anto" required>
@@ -563,16 +583,56 @@ $total_data = mysqli_num_rows($result);
     </div>
 </div>
 
+<!-- MODAL EDIT GURU -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Data Guru</h3>
+        <form action="kontrolguru.php" method="POST">
+            <input type="hidden" name="id_guru" id="edit_id">
+            <div class="form-group">
+                <label>Nama Guru</label>
+                <input type="text" name="nama_guru" id="edit_nama" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>No. Telepon</label>
+                <input type="text" name="no_telepon" id="edit_telp" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Mata Pelajaran</label>
+                <input type="text" name="mata_pelajaran" id="edit_mapel" class="form-control" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-batal" id="closeEditModalBtn">Batal</button>
+                <button type="submit" name="btn_update" class="btn-simpan">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
-    const modal   = document.getElementById("tambahModal");
-    const btnOpen  = document.getElementById("openModalBtn");
-    const btnClose = document.getElementById("closeModalBtn");
+    const modal        = document.getElementById("tambahModal");
+    const editModal    = document.getElementById("editModal");
+    const btnOpen      = document.getElementById("openModalBtn");
+    const btnClose     = document.getElementById("closeModalBtn");
+    const btnCloseEdit = document.getElementById("closeEditModalBtn");
 
-    btnOpen.onclick  = () => modal.style.display = "flex";
-    btnClose.onclick = () => modal.style.display = "none";
-    window.onclick   = (e) => { if (e.target === modal) modal.style.display = "none"; };
+    btnOpen.onclick      = () => modal.style.display     = "flex";
+    btnClose.onclick     = () => modal.style.display     = "none";
+    btnCloseEdit.onclick = () => editModal.style.display = "none";
 
-    // Fitur pencarian live
+    window.onclick = (e) => {
+        if (e.target === modal)     modal.style.display     = "none";
+        if (e.target === editModal) editModal.style.display = "none";
+    };
+
+    function bukaModalEdit(btn) {
+        document.getElementById("edit_id").value    = btn.dataset.id;
+        document.getElementById("edit_nama").value  = btn.dataset.nama;
+        document.getElementById("edit_telp").value  = btn.dataset.telp;
+        document.getElementById("edit_mapel").value = btn.dataset.mapel;
+        editModal.style.display = "flex";
+    }
+
     document.getElementById("searchInput").addEventListener("keyup", function() {
         const keyword = this.value.toLowerCase();
         const rows = document.querySelectorAll("#guruTable tbody tr");
