@@ -1,0 +1,362 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: #fff;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  background-color: #007f4e;
+  /* Hijau Dashboard asli */
+  padding: 24px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-brand i {
+  font-size: 2rem;
+}
+
+.brand-text h2 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.brand-text span {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.role-tag {
+  background-color: #00663e;
+  color: white;
+  padding: 8px 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 16px;
+  flex-grow: 1;
+}
+
+.sidebar-menu li {
+  margin-bottom: 8px;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  color: #475569;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu a:hover {
+  background-color: #f1f5f9;
+  color: #007f4e;
+}
+
+.sidebar-menu li.active a {
+  background-color: #e6f2ed;
+  color: #007f4e;
+  font-weight: 600;
+}
+
+/* User Profile Card di Sidebar */
+.sidebar-user {
+  padding: 16px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar i {
+  color: #64748b;
+  font-size: 1.2rem;
+}
+
+.user-info h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.user-info p {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.status-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #22c55e;
+  font-weight: 500;
+}
+
+.status-online::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #22c55e;
+  border-radius: 50%;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.header {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header h2 {
+  color: #198754;
+  margin-bottom: 5px;
+}
+
+.header p {
+  color: #6c757d;
+  margin-bottom: 25px;
+}
+
+.filter-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.filter-section input,
+.filter-section select {
+  padding: 12px 15px;
+  border: 1px solid #dce1e7;
+  border-radius: 10px;
+  background: white;
+  font-size: 14px;
+}
+
+.filter-section input:focus,
+.filter-section select:focus {
+  border-color: #198754;
+  outline: none;
+}
+
+.jadwal-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.jadwal-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: 1px solid #eef2f6;
+}
+
+.jadwal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+}
+
+.matematika {
+  background: #0d6efd;
+}
+
+.fisika {
+  background: #198754;
+}
+
+.kimia {
+  background: #f59e0b;
+}
+
+.jadwal-info {
+  flex: 1;
+}
+
+.jadwal-info h3 {
+  margin-bottom: 5px;
+}
+
+.jadwal-info p {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.detail {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.guru {
+  font-size: 13px;
+  color: #444;
+}
+
+.btn-detail {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #475569;
+  transition: 0.3s;
+}
+
+.btn-detail:hover {
+  background: #198754;
+  color: white;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  width: 450px;
+  max-width: 90%;
+  margin: 100px auto;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.close {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #198754;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+
+  .filter-section {
+    flex-direction: column;
+  }
+
+  .jadwal-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-detail {
+    align-self: flex-end;
+  }
+}
