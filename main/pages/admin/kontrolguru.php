@@ -2,7 +2,7 @@
 $host     = "localhost";
 $username = "root";
 $password = "";
-$database = "db_les_bima";
+$database = "les_bima_db";
 
 $koneksi = mysqli_connect($host, $username, $password, $database);
 
@@ -10,41 +10,55 @@ if (!$koneksi) {
     die("Koneksi ke database gagal: " . mysqli_connect_error());
 }
 
+// TAMBAH GURU
 if (isset($_POST['btn_simpan'])) {
-    $nama_guru      = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
-    $no_telepon     = mysqli_real_escape_string($koneksi, $_POST['no_telepon']);
-    $mata_pelajaran = mysqli_real_escape_string($koneksi, $_POST['mata_pelajaran']);
+    $id_role   = (int) $_POST['id_role'];
+    $username  = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+    $nama_guru = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
+    $no_telp   = mysqli_real_escape_string($koneksi, $_POST['no_telp']);
 
-    $query_tambah = "INSERT INTO guru (nama_guru, no_telepon, mata_pelajaran) VALUES ('$nama_guru', '$no_telepon', '$mata_pelajaran')";
+    $query_tambah = "INSERT INTO guru (id_role, username, password, nama_guru, no_telp) 
+                     VALUES ('$id_role', '$username', '$password', '$nama_guru', '$no_telp')";
     $hasil_tambah = mysqli_query($koneksi, $query_tambah);
 
     if ($hasil_tambah) {
         header("Location: kontrolguru.php");
         exit;
     } else {
-        echo "<script>alert('Gagal menambahkan data!');</script>";
+        echo "<script>alert('Gagal menambahkan data! Username mungkin sudah dipakai.');</script>";
     }
 }
 
+// UPDATE GURU
 if (isset($_POST['btn_update'])) {
-    $id_guru        = (int) $_POST['id_guru'];
-    $nama_guru      = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
-    $no_telepon     = mysqli_real_escape_string($koneksi, $_POST['no_telepon']);
-    $mata_pelajaran = mysqli_real_escape_string($koneksi, $_POST['mata_pelajaran']);
+    $id_guru   = (int) $_POST['id_guru'];
+    $id_role   = (int) $_POST['id_role'];
+    $username  = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $nama_guru = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
+    $no_telp   = mysqli_real_escape_string($koneksi, $_POST['no_telp']);
 
-    $query_update = "UPDATE guru SET nama_guru='$nama_guru', no_telepon='$no_telepon', mata_pelajaran='$mata_pelajaran' WHERE id_guru=$id_guru";
+    // Jika password diisi, update password. Jika kosong, biarkan password lama
+    if (!empty($_POST['password'])) {
+        $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+        $query_update = "UPDATE guru SET id_role='$id_role', username='$username', password='$password', nama_guru='$nama_guru', no_telp='$no_telp' WHERE id_guru=$id_guru";
+    } else {
+        $query_update = "UPDATE guru SET id_role='$id_role', username='$username', nama_guru='$nama_guru', no_telp='$no_telp' WHERE id_guru=$id_guru";
+    }
+
     $hasil_update = mysqli_query($koneksi, $query_update);
 
     if ($hasil_update) {
         header("Location: kontrolguru.php");
         exit;
     } else {
-        echo "<script>alert('Gagal mengupdate data!');</script>";
+        echo "<script>alert('Gagal mengupdate data! Username mungkin sudah dipakai.');</script>";
     }
 }
 
+// HAPUS GURU
 if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
-    $id_guru = (int) $_GET['id'];
+    $id_guru     = (int) $_GET['id'];
     $query_hapus = "DELETE FROM guru WHERE id_guru = $id_guru";
     $hasil_hapus = mysqli_query($koneksi, $query_hapus);
 
@@ -56,8 +70,8 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
     }
 }
 
-$query = "SELECT * FROM guru";
-$result = mysqli_query($koneksi, $query);
+$query      = "SELECT * FROM guru";
+$result     = mysqli_query($koneksi, $query);
 $total_data = mysqli_num_rows($result);
 ?>
 
@@ -243,13 +257,9 @@ $total_data = mysqli_num_rows($result);
             transition: background 0.2s;
         }
 
-        .btn-tambah:hover {
-            background-color: #1e40af;
-        }
+        .btn-tambah:hover { background-color: #1e40af; }
 
-        .search-container {
-            position: relative;
-        }
+        .search-container { position: relative; }
 
         .search-input {
             padding: 12px 16px 12px 40px;
@@ -263,9 +273,7 @@ $total_data = mysqli_num_rows($result);
             font-family: 'Poppins', sans-serif;
         }
 
-        .search-input:focus {
-            border-color: #1d4ed8;
-        }
+        .search-input:focus { border-color: #1d4ed8; }
 
         .search-icon {
             position: absolute;
@@ -311,16 +319,16 @@ $total_data = mysqli_num_rows($result);
             vertical-align: middle;
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        tr:last-child td { border-bottom: none; }
 
-        .col-no    { width: 8%; }
-        .col-nama  { width: 28%; }
-        .col-telp  { width: 25%; }
-        .col-mapel { width: 24%; }
-        .col-aksi  { width: 15%; text-align: center; }
-        th.col-aksi { text-align: center; }
+        .col-no       { width: 5%; }
+        .col-role     { width: 10%; }
+        .col-nama     { width: 22%; }
+        .col-username { width: 20%; }
+        .col-password { width: 18%; }
+        .col-telp     { width: 18%; }
+        .col-aksi     { width: 12%; text-align: center; }
+        th.col-aksi   { text-align: center; }
 
         /* ===== TOMBOL AKSI ===== */
         .action-buttons {
@@ -373,7 +381,7 @@ $total_data = mysqli_num_rows($result);
             background-color: #ffffff;
             border-radius: 12px;
             padding: 32px;
-            width: 460px;
+            width: 480px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
@@ -384,9 +392,7 @@ $total_data = mysqli_num_rows($result);
             margin-bottom: 24px;
         }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+        .form-group { margin-bottom: 16px; }
 
         .form-group label {
             display: block;
@@ -394,6 +400,13 @@ $total_data = mysqli_num_rows($result);
             font-weight: 600;
             color: #374151;
             margin-bottom: 6px;
+        }
+
+        .form-group .hint {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 400;
+            margin-left: 4px;
         }
 
         .form-control {
@@ -411,6 +424,15 @@ $total_data = mysqli_num_rows($result);
         .form-control:focus {
             border-color: #1d4ed8;
             box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
         }
 
         .modal-footer {
@@ -505,9 +527,11 @@ $total_data = mysqli_num_rows($result);
                 <thead>
                     <tr>
                         <th class="col-no">No</th>
+                        <th class="col-role">id Role</th>
                         <th class="col-nama">Nama Guru</th>
+                        <th class="col-username">Username</th>
+                        <th class="col-password">Password</th>  
                         <th class="col-telp">No. Telepon</th>
-                        <th class="col-mapel">Mata Pelajaran</th>
                         <th class="col-aksi">Aksi</th>
                     </tr>
                 </thead>
@@ -519,16 +543,20 @@ $total_data = mysqli_num_rows($result);
                     ?>
                         <tr>
                             <td><?= $no++; ?></td>
+                            <td><?= htmlspecialchars($row['id_role']); ?></td>
                             <td><?= htmlspecialchars($row['nama_guru']); ?></td>
-                            <td><?= htmlspecialchars($row['no_telepon']); ?></td>
-                            <td><?= htmlspecialchars($row['mata_pelajaran']); ?></td>
+                            <td><?= htmlspecialchars($row['username']); ?></td>
+                            <td><?= htmlspecialchars($row['password']); ?></td>
+                            <td><?= htmlspecialchars($row['no_telp']); ?></td>
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn-action btn-edit" title="Edit"
                                         data-id="<?= $row['id_guru']; ?>"
+                                        data-role="<?= $row['id_role']; ?>"
                                         data-nama="<?= htmlspecialchars($row['nama_guru'], ENT_QUOTES); ?>"
-                                        data-telp="<?= htmlspecialchars($row['no_telepon'], ENT_QUOTES); ?>"
-                                        data-mapel="<?= htmlspecialchars($row['mata_pelajaran'], ENT_QUOTES); ?>"
+                                        data-username="<?= htmlspecialchars($row['username'], ENT_QUOTES); ?>"
+                                        data-password="<?= htmlspecialchars($row['password'], ENT_QUOTES); ?>"
+                                        data-telp="<?= htmlspecialchars($row['no_telp'], ENT_QUOTES); ?>"
                                         onclick="bukaModalEdit(this)">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
@@ -544,7 +572,7 @@ $total_data = mysqli_num_rows($result);
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 40px;'>Belum ada data guru.</td></tr>";
+                        echo "<tr><td colspan='7' style='text-align:center; color:#94a3b8; padding: 40px;'>Belum ada data guru.</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -563,17 +591,27 @@ $total_data = mysqli_num_rows($result);
     <div class="modal-content">
         <h3>Tambah Data Guru</h3>
         <form action="kontrolguru.php" method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ID Role</label>
+                    <input type="number" name="id_role" class="form-control" placeholder="Contoh: 1" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Telepon</label>
+                    <input type="text" name="no_telp" class="form-control" placeholder="Contoh: 0812-xxxx-xxxx">
+                </div>
+            </div>
             <div class="form-group">
                 <label>Nama Guru</label>
                 <input type="text" name="nama_guru" class="form-control" placeholder="Contoh: Bapak Anto" required>
             </div>
             <div class="form-group">
-                <label>No. Telepon</label>
-                <input type="text" name="no_telepon" class="form-control" placeholder="Contoh: 0812-xxxx-xxxx" required>
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Contoh: bapak.anto" required>
             </div>
             <div class="form-group">
-                <label>Mata Pelajaran</label>
-                <input type="text" name="mata_pelajaran" class="form-control" placeholder="Contoh: Fisika, Kimia" required>
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-batal" id="closeModalBtn">Batal</button>
@@ -589,17 +627,27 @@ $total_data = mysqli_num_rows($result);
         <h3>Edit Data Guru</h3>
         <form action="kontrolguru.php" method="POST">
             <input type="hidden" name="id_guru" id="edit_id">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ID Role</label>
+                    <input type="number" name="id_role" id="edit_role" class="form-control" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Telepon</label>
+                    <input type="text" name="no_telp" id="edit_telp" class="form-control">
+                </div>
+            </div>
             <div class="form-group">
                 <label>Nama Guru</label>
                 <input type="text" name="nama_guru" id="edit_nama" class="form-control" required>
             </div>
             <div class="form-group">
-                <label>No. Telepon</label>
-                <input type="text" name="no_telepon" id="edit_telp" class="form-control" required>
+                <label>Username</label>
+                <input type="text" name="username" id="edit_username" class="form-control" required>
             </div>
             <div class="form-group">
-                <label>Mata Pelajaran</label>
-                <input type="text" name="mata_pelajaran" id="edit_mapel" class="form-control" required>
+                <label>Password <span class="hint">(kosongkan jika tidak ingin mengubah)</span></label>
+                <input type="password" name="password" id="edit_password" class="form-control" placeholder="Password baru...">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-batal" id="closeEditModalBtn">Batal</button>
@@ -626,10 +674,12 @@ $total_data = mysqli_num_rows($result);
     };
 
     function bukaModalEdit(btn) {
-        document.getElementById("edit_id").value    = btn.dataset.id;
-        document.getElementById("edit_nama").value  = btn.dataset.nama;
-        document.getElementById("edit_telp").value  = btn.dataset.telp;
-        document.getElementById("edit_mapel").value = btn.dataset.mapel;
+        document.getElementById("edit_id").value       = btn.dataset.id;
+        document.getElementById("edit_role").value     = btn.dataset.role;
+        document.getElementById("edit_nama").value     = btn.dataset.nama;
+        document.getElementById("edit_username").value = btn.dataset.username;
+        document.getElementById("edit_telp").value     = btn.dataset.telp;
+        document.getElementById("edit_password").value = "";
         editModal.style.display = "flex";
     }
 
@@ -637,8 +687,7 @@ $total_data = mysqli_num_rows($result);
         const keyword = this.value.toLowerCase();
         const rows = document.querySelectorAll("#guruTable tbody tr");
         rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(keyword) ? "" : "none";
+            row.style.display = row.textContent.toLowerCase().includes(keyword) ? "" : "none";
         });
     });
 </script>

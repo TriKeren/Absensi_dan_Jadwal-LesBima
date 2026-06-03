@@ -7,7 +7,7 @@
 
     <!-- Google Icon -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-    <link rel="stylesheet" href="css/dashboardguru.css">
+    <link rel="stylesheet" href="../../css/dashboardguru.css">
 </head>
 <body>
 
