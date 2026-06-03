@@ -2,7 +2,7 @@
 $host     = "localhost";
 $username = "root";
 $password = "";
-$database = "db_les_bima";
+$database = "les_bima_db";
 
 $koneksi = mysqli_connect($host, $username, $password, $database);
 
@@ -10,24 +10,56 @@ if (!$koneksi) {
     die("Koneksi ke database gagal: " . mysqli_connect_error());
 }
 
+// TAMBAH MURID
 if (isset($_POST['btn_simpan'])) {
-    $nama_murid     = mysqli_real_escape_string($koneksi, $_POST['nama_murid']);
-    $no_telepon     = mysqli_real_escape_string($koneksi, $_POST['no_telepon']);
-    $mata_pelajaran = mysqli_real_escape_string($koneksi, $_POST['mata_pelajaran']);
+    $id_role    = (int) $_POST['id_role'];
+    $username   = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $password   = mysqli_real_escape_string($koneksi, $_POST['password']);
+    $nama_murid = mysqli_real_escape_string($koneksi, $_POST['nama_murid']);
+    $alamat     = mysqli_real_escape_string($koneksi, $_POST['alamat']);
+    $no_telp    = mysqli_real_escape_string($koneksi, $_POST['no_telp']);
 
-    $query_tambah = "INSERT INTO murid (nama_murid, no_telepon, mata_pelajaran) VALUES ('$nama_murid', '$no_telepon', '$mata_pelajaran')";
+    $query_tambah = "INSERT INTO murid (id_role, username, password, nama_murid, alamat, no_telp) 
+                     VALUES ('$id_role', '$username', '$password', '$nama_murid', '$alamat', '$no_telp')";
     $hasil_tambah = mysqli_query($koneksi, $query_tambah);
 
     if ($hasil_tambah) {
         header("Location: kontrolmurid.php");
         exit;
     } else {
-        echo "<script>alert('Gagal menambahkan data!');</script>";
+        echo "<script>alert('Gagal menambahkan data! Username mungkin sudah dipakai.');</script>";
     }
 }
 
+// UPDATE MURID
+if (isset($_POST['btn_update'])) {
+    $id_murid   = (int) $_POST['id_murid'];
+    $id_role    = (int) $_POST['id_role'];
+    $username   = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $nama_murid = mysqli_real_escape_string($koneksi, $_POST['nama_murid']);
+    $alamat     = mysqli_real_escape_string($koneksi, $_POST['alamat']);
+    $no_telp    = mysqli_real_escape_string($koneksi, $_POST['no_telp']);
+
+    if (!empty($_POST['password'])) {
+        $password     = mysqli_real_escape_string($koneksi, $_POST['password']);
+        $query_update = "UPDATE murid SET id_role='$id_role', username='$username', password='$password', nama_murid='$nama_murid', alamat='$alamat', no_telp='$no_telp' WHERE id_murid=$id_murid";
+    } else {
+        $query_update = "UPDATE murid SET id_role='$id_role', username='$username', nama_murid='$nama_murid', alamat='$alamat', no_telp='$no_telp' WHERE id_murid=$id_murid";
+    }
+
+    $hasil_update = mysqli_query($koneksi, $query_update);
+
+    if ($hasil_update) {
+        header("Location: kontrolmurid.php");
+        exit;
+    } else {
+        echo "<script>alert('Gagal mengupdate data! Username mungkin sudah dipakai.');</script>";
+    }
+}
+
+// HAPUS MURID
 if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
-    $id_murid = (int) $_GET['id'];
+    $id_murid    = (int) $_GET['id'];
     $query_hapus = "DELETE FROM murid WHERE id_murid = $id_murid";
     $hasil_hapus = mysqli_query($koneksi, $query_hapus);
 
@@ -39,25 +71,8 @@ if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus' && isset($_GET['id'])) {
     }
 }
 
-if (isset($_POST['btn_update'])) {
-    $id_murid       = (int) $_POST['id_murid'];
-    $nama_murid     = mysqli_real_escape_string($koneksi, $_POST['nama_murid']);
-    $no_telepon     = mysqli_real_escape_string($koneksi, $_POST['no_telepon']);
-    $mata_pelajaran = mysqli_real_escape_string($koneksi, $_POST['mata_pelajaran']);
-
-    $query_update = "UPDATE murid SET nama_murid='$nama_murid', no_telepon='$no_telepon', mata_pelajaran='$mata_pelajaran' WHERE id_murid=$id_murid";
-    $hasil_update = mysqli_query($koneksi, $query_update);
-
-    if ($hasil_update) {
-        header("Location: kontrolmurid.php");
-        exit;
-    } else {
-        echo "<script>alert('Gagal mengupdate data!');</script>";
-    }
-}
-
-$query = "SELECT * FROM murid";
-$result = mysqli_query($koneksi, $query);
+$query      = "SELECT * FROM murid";
+$result     = mysqli_query($koneksi, $query);
 $total_data = mysqli_num_rows($result);
 ?>
 
@@ -243,13 +258,9 @@ $total_data = mysqli_num_rows($result);
             transition: background 0.2s;
         }
 
-        .btn-tambah:hover {
-            background-color: #1e40af;
-        }
+        .btn-tambah:hover { background-color: #1e40af; }
 
-        .search-container {
-            position: relative;
-        }
+        .search-container { position: relative; }
 
         .search-input {
             padding: 12px 16px 12px 40px;
@@ -263,9 +274,7 @@ $total_data = mysqli_num_rows($result);
             font-family: 'Poppins', sans-serif;
         }
 
-        .search-input:focus {
-            border-color: #1d4ed8;
-        }
+        .search-input:focus { border-color: #1d4ed8; }
 
         .search-icon {
             position: absolute;
@@ -287,6 +296,7 @@ $total_data = mysqli_num_rows($result);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow-x: auto;
         }
 
         table {
@@ -301,6 +311,7 @@ $total_data = mysqli_num_rows($result);
             font-size: 14px;
             padding: 16px;
             border-bottom: 2px solid #edf2f7;
+            white-space: nowrap;
         }
 
         td {
@@ -311,16 +322,25 @@ $total_data = mysqli_num_rows($result);
             vertical-align: middle;
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        tr:last-child td { border-bottom: none; }
 
-        .col-no    { width: 8%; }
-        .col-nama  { width: 28%; }
-        .col-telp  { width: 25%; }
-        .col-mapel { width: 24%; }
-        .col-aksi  { width: 15%; text-align: center; }
-        th.col-aksi { text-align: center; }
+        .col-no       { width: 4%; }
+        .col-role     { width: 7%; }
+        .col-nama     { width: 16%; }
+        .col-username { width: 13%; }
+        .col-password { width: 13%; }
+        .col-alamat   { width: 20%; }
+        .col-telp     { width: 13%; }
+        .col-aksi     { width: 10%; text-align: center; }
+        th.col-aksi   { text-align: center; }
+
+        /* Truncate teks panjang di kolom alamat */
+        .col-alamat-td {
+            max-width: 160px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         /* ===== TOMBOL AKSI ===== */
         .action-buttons {
@@ -373,8 +393,10 @@ $total_data = mysqli_num_rows($result);
             background-color: #ffffff;
             border-radius: 12px;
             padding: 32px;
-            width: 460px;
+            width: 500px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-content h3 {
@@ -384,9 +406,7 @@ $total_data = mysqli_num_rows($result);
             margin-bottom: 24px;
         }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+        .form-group { margin-bottom: 16px; }
 
         .form-group label {
             display: block;
@@ -394,6 +414,13 @@ $total_data = mysqli_num_rows($result);
             font-weight: 600;
             color: #374151;
             margin-bottom: 6px;
+        }
+
+        .form-group .hint {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 400;
+            margin-left: 4px;
         }
 
         .form-control {
@@ -412,6 +439,18 @@ $total_data = mysqli_num_rows($result);
             border-color: #1d4ed8;
             box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
         }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .form-row .form-group { flex: 1; }
 
         .modal-footer {
             display: flex;
@@ -505,9 +544,12 @@ $total_data = mysqli_num_rows($result);
                 <thead>
                     <tr>
                         <th class="col-no">No</th>
+                        <th class="col-role">ID Role</th>
                         <th class="col-nama">Nama Murid</th>
+                        <th class="col-username">Username</th>
+                        <th class="col-password">Password</th>
+                        <th class="col-alamat">Alamat</th>
                         <th class="col-telp">No. Telepon</th>
-                        <th class="col-mapel">Mata Pelajaran</th>
                         <th class="col-aksi">Aksi</th>
                     </tr>
                 </thead>
@@ -519,18 +561,25 @@ $total_data = mysqli_num_rows($result);
                     ?>
                         <tr>
                             <td><?= $no++; ?></td>
+                            <td><?= htmlspecialchars($row['id_role']); ?></td>
                             <td><?= htmlspecialchars($row['nama_murid']); ?></td>
-                            <td><?= htmlspecialchars($row['no_telepon']); ?></td>
-                            <td><?= htmlspecialchars($row['mata_pelajaran']); ?></td>
+                            <td><?= htmlspecialchars($row['username']); ?></td>
+                            <td><?= htmlspecialchars($row['password']); ?></td>
+                            <td class="col-alamat-td" title="<?= htmlspecialchars($row['alamat']); ?>">
+                                <?= htmlspecialchars($row['alamat']); ?>
+                            </td>
+                            <td><?= htmlspecialchars($row['no_telp']); ?></td>
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn-action btn-edit" title="Edit"
-                                    data-id="<?= $row['id_murid']; ?>"
-                                    data-nama="<?= htmlspecialchars($row['nama_murid'], ENT_QUOTES); ?>"
-                                    data-telp="<?= htmlspecialchars($row['no_telepon'], ENT_QUOTES); ?>"
-                                    data-mapel="<?= htmlspecialchars($row['mata_pelajaran'], ENT_QUOTES); ?>"
-                                    onclick="bukaModalEdit(this)">
-                                    <i class="fa-solid fa-pencil"></i>
+                                        data-id="<?= $row['id_murid']; ?>"
+                                        data-role="<?= $row['id_role']; ?>"
+                                        data-nama="<?= htmlspecialchars($row['nama_murid'], ENT_QUOTES); ?>"
+                                        data-username="<?= htmlspecialchars($row['username'], ENT_QUOTES); ?>"
+                                        data-alamat="<?= htmlspecialchars($row['alamat'], ENT_QUOTES); ?>"
+                                        data-telp="<?= htmlspecialchars($row['no_telp'], ENT_QUOTES); ?>"
+                                        onclick="bukaModalEdit(this)">
+                                        <i class="fa-solid fa-pencil"></i>
                                     </button>
                                     <a href="kontrolmurid.php?aksi=hapus&id=<?= $row['id_murid']; ?>"
                                        class="btn-action btn-delete"
@@ -544,7 +593,7 @@ $total_data = mysqli_num_rows($result);
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 40px;'>Belum ada data murid.</td></tr>";
+                        echo "<tr><td colspan='8' style='text-align:center; color:#94a3b8; padding: 40px;'>Belum ada data murid.</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -563,17 +612,31 @@ $total_data = mysqli_num_rows($result);
     <div class="modal-content">
         <h3>Tambah Data Murid</h3>
         <form action="kontrolmurid.php" method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ID Role</label>
+                    <input type="number" name="id_role" class="form-control" placeholder="Contoh: 2" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Telepon</label>
+                    <input type="text" name="no_telp" class="form-control" placeholder="Contoh: 0812-xxxx-xxxx">
+                </div>
+            </div>
             <div class="form-group">
                 <label>Nama Murid</label>
                 <input type="text" name="nama_murid" class="form-control" placeholder="Contoh: Budi Santoso" required>
             </div>
             <div class="form-group">
-                <label>No. Telepon</label>
-                <input type="text" name="no_telepon" class="form-control" placeholder="Contoh: 0812-xxxx-xxxx" required>
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Contoh: budi.santoso" required>
             </div>
             <div class="form-group">
-                <label>Mata Pelajaran</label>
-                <input type="text" name="mata_pelajaran" class="form-control" placeholder="Contoh: Fisika, Kimia" required>
+                <label>Password</label>
+                <input type="text" name="password" class="form-control" placeholder="Masukkan password" required>
+            </div>
+            <div class="form-group">
+                <label>Alamat</label>
+                <textarea name="alamat" class="form-control" placeholder="Contoh: Jl. Merdeka No. 1, Jakarta"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-batal" id="closeModalBtn">Batal</button>
@@ -582,23 +645,38 @@ $total_data = mysqli_num_rows($result);
         </form>
     </div>
 </div>
+
 <!-- MODAL EDIT MURID -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <h3>Edit Data Murid</h3>
         <form action="kontrolmurid.php" method="POST">
             <input type="hidden" name="id_murid" id="edit_id">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ID Role</label>
+                    <input type="number" name="id_role" id="edit_role" class="form-control" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Telepon</label>
+                    <input type="text" name="no_telp" id="edit_telp" class="form-control">
+                </div>
+            </div>
             <div class="form-group">
                 <label>Nama Murid</label>
                 <input type="text" name="nama_murid" id="edit_nama" class="form-control" required>
             </div>
             <div class="form-group">
-                <label>No. Telepon</label>
-                <input type="text" name="no_telepon" id="edit_telp" class="form-control" required>
+                <label>Username</label>
+                <input type="text" name="username" id="edit_username" class="form-control" required>
             </div>
             <div class="form-group">
-                <label>Mata Pelajaran</label>
-                <input type="text" name="mata_pelajaran" id="edit_mapel" class="form-control" required>
+                <label>Password <span class="hint">(kosongkan jika tidak ingin mengubah)</span></label>
+                <input type="text" name="password" id="edit_password" class="form-control" placeholder="Password baru...">
+            </div>
+            <div class="form-group">
+                <label>Alamat</label>
+                <textarea name="alamat" id="edit_alamat" class="form-control"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-batal" id="closeEditModalBtn">Batal</button>
@@ -609,33 +687,37 @@ $total_data = mysqli_num_rows($result);
 </div>
 
 <script>
-    const modal    = document.getElementById("tambahModal");
-    const btnOpen  = document.getElementById("openModalBtn");
-    const btnClose = document.getElementById("closeModalBtn");
-        const editModal     = document.getElementById("editModal");
-const btnCloseEdit  = document.getElementById("closeEditModalBtn");
+    const modal        = document.getElementById("tambahModal");
+    const editModal    = document.getElementById("editModal");
+    const btnOpen      = document.getElementById("openModalBtn");
+    const btnClose     = document.getElementById("closeModalBtn");
+    const btnCloseEdit = document.getElementById("closeEditModalBtn");
 
-    btnOpen.onclick  = () => modal.style.display = "flex";
-    btnClose.onclick = () => modal.style.display = "none";
-    window.onclick   = (e) => { if (e.target === modal) modal.style.display = "none"; 
-           if (e.target === editModal)  editModal.style.display = "none";
+    btnOpen.onclick      = () => modal.style.display     = "flex";
+    btnClose.onclick     = () => modal.style.display     = "none";
+    btnCloseEdit.onclick = () => editModal.style.display = "none";
+
+    window.onclick = (e) => {
+        if (e.target === modal)     modal.style.display     = "none";
+        if (e.target === editModal) editModal.style.display = "none";
     };
-    function bukaModalEdit(btn) {
-    document.getElementById("edit_id").value    = btn.dataset.id;
-    document.getElementById("edit_nama").value  = btn.dataset.nama;
-    document.getElementById("edit_telp").value  = btn.dataset.telp;
-    document.getElementById("edit_mapel").value = btn.dataset.mapel;
-    editModal.style.display = "flex";
-}
 
-btnCloseEdit.onclick = () => editModal.style.display = "none";
+    function bukaModalEdit(btn) {
+        document.getElementById("edit_id").value       = btn.dataset.id;
+        document.getElementById("edit_role").value     = btn.dataset.role;
+        document.getElementById("edit_nama").value     = btn.dataset.nama;
+        document.getElementById("edit_username").value = btn.dataset.username;
+        document.getElementById("edit_telp").value     = btn.dataset.telp;
+        document.getElementById("edit_alamat").value   = btn.dataset.alamat;
+        document.getElementById("edit_password").value = "";
+        editModal.style.display = "flex";
+    }
 
     document.getElementById("searchInput").addEventListener("keyup", function() {
         const keyword = this.value.toLowerCase();
         const rows = document.querySelectorAll("#muridTable tbody tr");
         rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(keyword) ? "" : "none";
+            row.style.display = row.textContent.toLowerCase().includes(keyword) ? "" : "none";
         });
     });
 </script>
