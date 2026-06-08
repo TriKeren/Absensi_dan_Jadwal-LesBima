@@ -118,19 +118,19 @@ $queryJadwal = mysqli_query($koneksi, "
 
         <ul class="sidebar-menu">
             <li class="active">
-                <a href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <a href="dashboard.php"><i class="fa-solid fa-house"></i> Dashboard</a>
             </li>
             <li>
-                <a href="./jadwal.php"><i class="fa-solid fa-calendar-days"></i> Jadwal Saya</a>
+                <a href="jadwal.php"><i class="fa-solid fa-calendar-days"></i> Jadwal Saya</a>
             </li>
             <li>
-                <a href="./pertemuan.php"><i class="fa-solid fa-chalkboard-user"></i> Pertemuan</a>
+                <a href="pertemuan.php"><i class="fa-solid fa-chalkboard-user"></i> Pertemuan</a>
             </li>
             <li>
-                <a href="./absensi.php"><i class="fa-solid fa-user-check"></i> Absensi Saya</a>
+                <a href="absensi.php"><i class="fa-solid fa-user-check"></i> Absensi Saya</a>
             </li>
             <li>
-                <a href="#"><i class="fa-solid fa-user"></i> Profil</a>
+                <a href="profil.php"><i class="fa-solid fa-user"></i> Profil</a>
             </li>
             <li style="margin-top: 20px;">
                 <a href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>

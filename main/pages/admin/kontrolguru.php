@@ -97,12 +97,14 @@ $total_data = mysqli_num_rows($result);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .canvas-container {
-            width: 1440px;
-            height: 1024px;
+            width: 100%;
+            max-width: 1440px;
+            height: 100vh;
             background-color: #f8fafc;
             display: flex;
             overflow: hidden;
@@ -111,14 +113,15 @@ $total_data = mysqli_num_rows($result);
 
         /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 260px;
-            height: 100%;
+            width: 240px;
+            height: 100vh;
             background-color: #031e3d;
             color: #ffffff;
-            padding: 24px 16px;
+            padding: 20px 16px;
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .sidebar-header {
