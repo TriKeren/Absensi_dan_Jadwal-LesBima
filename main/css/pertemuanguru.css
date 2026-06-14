@@ -1,225 +1,365 @@
-  
- *{margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family:'Segoe UI',sans-serif;
         }
 
-body{
-    background:#0a0a0a;
-}
+        body {
+            height: 100%;
+            overflow: hidden;
+            background-color: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-.ap_container {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
-/* SIDEBAR */
+        .ap_container {
+            width: 1440px;
+            height: 1024px;
+            background-color: #f8fafc;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        /* ===== SIDEBAR ===== */
 .sidebar{
-    width:260px;
+    width:270px;
+    min-width:270px;
     height:100vh;
-    background:linear-gradient(to bottom,#003c96,#001d59);
-    padding:20px 15px;
+    background:#052a5b;
     color:white;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
 }
 
-/* LOGO */
-.logo-box{
+.sidebar-brand{
     display:flex;
     align-items:center;
     gap:12px;
     margin-bottom:25px;
 }
 
-.logo-box .material-symbols-outlined{
-    font-size:45px;
+.sidebar-brand i{
+    font-size:35px;
 }
 
-.logo-text h2{
-    font-size:22px;
-    font-weight:bold;
-    line-height:1.2;
+.brand-text h2{
+    font-size:16px;
 }
 
-.logo-text p{
-    font-size:14px;
-    opacity:0.9;
+.brand-text span{
+    font-size:12px;
+    color:#cbd5e1;
 }
 
-/* ROLE BUTTON */
-.role-btn{
-    width:100%;
-    background:linear-gradient(to right,#2c7dff,#2568df);
-    border:none;
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    padding:15px;
-    border-radius:18px;
+.role-tag{
+    background:#0d4ea6;
+    padding:10px;
+    text-align:center;
+    border-radius:10px;
     margin-bottom:25px;
-    cursor:pointer;
-    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    font-weight:600;
 }
 
-/* MENU */
-.menu{
+.sidebar-menu{
     list-style:none;
 }
 
-.menu li{
-    margin-bottom:10px;
+.sidebar-menu li{
+    margin-bottom:8px;
 }
 
-.menu a{
+.sidebar-menu li a{
     display:flex;
+    gap:12px;
     align-items:center;
-    gap:14px;
     text-decoration:none;
     color:white;
-    padding:14px 16px;
-    border-radius:14px;
-    font-size:18px;
-    transition:0.3s;
+    padding:12px 15px;
+    border-radius:10px;
 }
 
-/* ACTIVE */
-.menu a.active{
-    background:linear-gradient(to right,#1f63db,#245ec5);
-    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+.sidebar-menu li a:hover,
+.sidebar-menu .active a{
+    background:#0d4ea6;
 }
 
-/* HOVER */
-.menu a:hover{
-    background:rgba(255,255,255,0.08);
-    transform:translateX(5px);
+.sidebar-user{
+    margin-top:auto;
+    background:#0b376f;
+    padding:15px;
+    border-radius:12px;
+    display:flex;
+    gap:10px;
 }
 
-.menu .material-symbols-outlined{
-    font-size:28px;
-}
-.content {
-    flex: 1;
-    background-color: #ECF3F6;
-    padding: 30px;
-    overflow-y: auto;
-}
-.placeholder-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
-.content-header {
-    color: #333333;
+.user-avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.hori {
-    display: flex;
-    padding: 15px 20px;
-    gap: 20px;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-.hori label {
-    font-weight: bold;
-    color: #444;
-    white-space: nowrap;
-}
-.dropdown {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    flex: 1;               /* Membuat dropdown mengambil sisa ruang yang tersedia */
-    max-width: 400px;      /* Membatasi lebar maksimal dropdown */
-    outline: none;
-}
-.tambah-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #1a73e8; /* Warna biru Google/Bootstrap */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: 0.3s;
-}
-.tambah-btn:hover {
-    background-color: #1557b0;
-}
-/* Container tabel agar memiliki jarak */
-.table-container {
-    margin-top: 30px;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden; /* Agar sudut tabel tumpul mengikuti container */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+.status-online{
+    color:#22c55e;
+    font-size:12px;
 }
 
-.pertemuan-table {
-    width: 100%;
-    border-collapse: collapse; /* Menghilangkan jarak antar garis */
-}
 
-/* Header Tabel */
-.pertemuan-table thead tr {
-    background-color: #f8fafd; /* Warna biru sangat muda untuk header */
-    border-bottom: 2px solid #edf2f7;
-}
+        /* ===== MAIN CONTENT ===== */
+        .content {
+            flex-grow: 1;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
 
-.pertemuan-table th {
-    padding: 18px;
-    color: #2d3748;
-    font-weight: bold;
-    text-align: center;
-}
+        .content-header {
+            margin-bottom: 30px;
+        }
 
-/* Body Tabel */
-.pertemuan-table td {
-    padding: 15px;
-    text-align: center;
-    color: #4a5568;
-    border-bottom: 1px solid #edf2f7;
-}
+        .content-header h1 {
+            font-size: 28px;
+            color: #1e293b;
+            font-weight: 700;
+        }
 
-/* Kolom Aksi */
-.aksi-cell {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+        .content-header p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
 
-/* Tombol Edit (Hijau) */
-.btn-edit {
-    background-color: #2fb380;
-    color: white;
-    border: none;
-    padding: 6px;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
+        /* ===== CARD ===== */
+        .placeholder-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
 
-/* Tombol Delete (Merah) */
-.btn-delete {
-    background-color: #e53e3e;
-    color: white;
-    border: none;
-    padding: 6px;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
+        /* ===== TOOLBAR (dropdown + tombol) ===== */
+        .hori {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-/* Ukuran Ikon dalam tombol */
-.material-symbols-outlined {
-    font-size: 20px;
-}
-   
+        .hori label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .dropdown {
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            color: #1e293b;
+            outline: none;
+            cursor: pointer;
+            flex-grow: 1;
+            transition: border-color 0.2s;
+        }
+
+        .dropdown:focus {
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
+        }
+
+        .tambah-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #1d4ed8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .tambah-btn:hover { background-color: #1e40af; }
+
+        .tambah-btn .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* ===== TABLE ===== */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .pertemuan-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .pertemuan-table th {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 16px;
+            border-bottom: 2px solid #edf2f7;
+        }
+
+        .pertemuan-table td {
+            color: #475569;
+            font-size: 14px;
+            padding: 18px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .pertemuan-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .aksi-cell {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-edit, .btn-delete {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            transition: opacity 0.2s, transform 0.1s;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .btn-edit   { background-color: #f59e0b; }
+        .btn-delete { background-color: #ef233c; }
+
+        .btn-edit:hover, .btn-delete:hover { opacity: 0.85; }
+        .btn-edit:active, .btn-delete:active { transform: scale(0.95); }
+
+        .btn-edit .material-symbols-outlined,
+        .btn-delete .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            width: 440px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .modal-content h3 {
+            font-size: 18px;
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+            color: #1e293b;
+        }
+
+        .form-control:focus {
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-batal {
+            padding: 10px 22px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            color: #374151;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-batal:hover { background-color: #f9fafb; }
+
+        .btn-simpan {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            background-color: #1d4ed8;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-simpan:hover { background-color: #1e40af; }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px;
+        }
