@@ -94,21 +94,15 @@ $total_data = mysqli_num_rows($result);
 
         body {
             background-color: #0a0a0a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            overflow : hidden;
+            margin : 0;
         }
 
         .canvas-container {
-            width: 100%;
-            max-width: 1440px;
-            height: 100vh;
-            background-color: #f8fafc;
-            display: flex;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+             width: 100%;
+             height: 100vh;
+             display: flex;
+             background: #f8fafc;
         }
 
         /* ===== SIDEBAR ===== */
