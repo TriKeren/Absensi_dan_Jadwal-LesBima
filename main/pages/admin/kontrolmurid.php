@@ -106,102 +106,100 @@ body {
   background: #f8fafc;
 }
 
-/* ===== SIDEBAR (SAMA & KONSISTEN) ===== */
+/* ===== SIDEBAR ===== */
 .sidebar {
-    width: 240px; 
-    height: 100%; /* DIUBAH: Menggunakan 100% dari .canvas-container, bukan 100vh lagi */
-    background-color: #031e3d;
-    color: #ffffff;
-    padding: 20px 16px; 
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    overflow: hidden;
+  width: 240px;
+  height: 100vh;
+  background-color: #031e3d;
+  color: #ffffff;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .sidebar-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
 }
 
 .sidebar-header .material-symbols-outlined {
-    font-size: 32px;
-    color: #fff;
+  font-size: 32px;
+  color: #fff;
 }
 
 .sidebar-header .header-text h3 {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    line-height: 1.3;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
 }
 
 .sidebar-header .header-text p {
-    font-size: 10px;
-    color: #a0aec0;
-    margin-top: 2px;
+  font-size: 10px;
+  color: #a0aec0;
+  margin-top: 2px;
 }
 
 .menu-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #718096;
-    padding-left: 10px;
-    display: block;
-    margin-bottom: 8px;
-    margin-top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #718096;
+  padding-left: 10px;
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 10px;
 }
 
 .menu {
-    list-style: none;
-    width: 100%;
+  list-style: none;
+  width: 100%;
 }
 
 .menu li {
-    margin-bottom: 4px;
+  margin-bottom: 4px;
 }
 
 .menu li a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    color: #b2c2d4;
-    text-decoration: none;
-    font-size: 13px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #b2c2d4;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .menu li a .material-symbols-outlined {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .menu li a:hover {
-    background-color: rgba(255,255,255,0.07);
-    color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
 }
 
 .menu li.active a {
-    background: linear-gradient(90deg, #1e70e4, #1557b7);
-    color: #ffffff;
-    font-weight: 600;
+  background: linear-gradient(90deg, #1e70e4, #1557b7);
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .menu li.logout a {
-    color: #ff6b6b;
-    margin-top: 10px;
+  color: #ff6b6b;
+  margin-top: 10px;
 }
 
 .menu li.logout a:hover {
-    background-color: rgba(255, 107, 107, 0.1);
+  background-color: rgba(255, 107, 107, 0.1);
 }
-
-/* Sisa kode CSS konten murid kamu bisa ditaruh di bawah sini */
 
         /* ===== MAIN CONTENT ===== */
         .main-content {
@@ -492,50 +490,33 @@ body {
 
 <div class="canvas-container">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-    <div class="sidebar-header">
-        <span class="material-symbols-outlined">school</span>
-        <div class="header-text">
-            <h3>SISTEM INFORMASI</h3>
-            <p>KURSUS &amp; ABSENSI</p>
+   <div class="sidebar">
+            <div class="sidebar-header">
+                <span class="material-symbols-outlined">school</span>
+                <div class="header-text">
+                    <h3>SISTEM INFORMASI</h3>
+                    <p>KURSUS &amp; ABSENSI</p>
+                </div>
+            </div>
+
+            <span class="menu-title">MAIN MENU</span>
+            <ul class="menu">
+                <li ><a href="dashboard.php"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
+                <li><a href="laporan_guru.php"><span class="material-symbols-outlined">calendar_month</span> Laporan Guru</a></li>
+                <li><a href="laporan_murid.php"><span class="material-symbols-outlined">description</span> Laporan Murid</a></li>
+                <li><a href="pertemuan.php"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
+                <li><a href="absensi_admin.php"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
+                <li><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
+                <li class="active"><a href="kontrolmurid.php"><span class="material-symbols-outlined">groups</span> Murid</a></li>
+            </ul>
+
+            <span class="menu-title" style="margin-top: auto; padding-top: 20px;">AKUN</span>
+            <ul class="menu">
+                <li><a href="#"><span class="material-symbols-outlined">manage_accounts</span> Profil</a></li>
+                <li class="logout"><a href="#"><span class="material-symbols-outlined">logout</span> Logout</a></li>
+            </ul>
         </div>
 
-        <span class="menu-title">MAIN MENU</span>
-        <ul class="menu">
-            <li><a href="dashboard.php"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
-            <li><a href="laporan_guru.php"><span class="material-symbols-outlined">calendar_month</span> Laporan Guru</a></li>
-            <li><a href="#"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
-            <li><a href="#"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
-            <li><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
-            <li class="active"><a href="kontrolmurid.php"><span class="material-symbols-outlined">groups</span> Murid</a></li>
-        </ul>
-
-        <span class="menu-title" style="margin-top: auto; padding-top: 20px;">AKUN</span>
-        <ul class="menu">
-            <li><a href="#"><span class="material-symbols-outlined">manage_accounts</span> Profil</a></li>
-            <li class="logout"><a href="#"><span class="material-symbols-outlined">logout</span> Logout</a></li>
-        </ul>
-    </div>
-
-    <span class="menu-title">MAIN MENU</span>
-    <ul class="menu">
-        <li><a href="dashboard.php"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
-        <li><a href="jadwal_admin.php"><span class="material-symbols-outlined">calendar_month</span> Jadwal</a></li>
-        <li><a href="pertemuan.php"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
-        <li><a href="absensi_admin.php"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
-        <li><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
-        <li class="active"><a href="kontrolmurid.php"><span class="material-symbols-outlined">groups</span> Murid</a></li>
-    </ul>
-
-    <span class="menu-title" style="margin-top: auto; padding-top: 20px;">AKUN</span>
-    <ul class="menu">
-        <li><a href="#"><span class="material-symbols-outlined">manage_accounts</span> Profil</a></li>
-        <li class="logout"><a href="#"><span class="material-symbols-outlined">logout</span> Logout</a></li>
-    </ul>
-</div>
-
-    <!-- MAIN CONTENT -->
     <div class="main-content">
 
         <div class="header-section">
@@ -622,7 +603,6 @@ body {
     </div>
 </div>
 
-<!-- MODAL TAMBAH MURID -->
 <div id="tambahModal" class="modal">
     <div class="modal-content">
         <h3>Tambah Data Murid</h3>
@@ -661,7 +641,6 @@ body {
     </div>
 </div>
 
-<!-- MODAL EDIT MURID -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <h3>Edit Data Murid</h3>

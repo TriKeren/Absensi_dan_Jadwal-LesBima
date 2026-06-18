@@ -10,8 +10,17 @@ if (!$koneksi) {
     die("Koneksi ke database gagal: " . mysqli_connect_error());
 }
 
-// Proses READ data tetap di sini
-$query      = "SELECT * FROM guru";
+// 1. Logika Pencarian PHP (Server-Side)
+$keyword = "";
+if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
+    $keyword = mysqli_real_escape_string($koneksi, $_GET['keyword']);
+    // Mencari data yang kembar atau mirip dengan nama_guru atau username
+    $query = "SELECT * FROM guru WHERE nama_guru LIKE '%$keyword%' OR username LIKE '%$keyword%'";
+} else {
+    // Jika tidak ada pencarian, tampilkan semua data seperti semula
+    $query = "SELECT * FROM guru";
+}
+
 $result     = mysqli_query($koneksi, $query);
 $total_data = mysqli_num_rows($result);
 ?>
@@ -26,76 +35,103 @@ $total_data = mysqli_num_rows($result);
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Poppins', sans-serif; 
-        }
-        body { 
-            background-color: #0a0a0a;
-             overflow : hidden;
-              margin : 0; 
-            }
-        .canvas-container {
-             width: 100%; 
-             height: 100vh; 
-             display: flex; 
-             background: #f8fafc; 
-            }
-        .sidebar { 
-            width: 240px; 
-            height: 100vh; 
-            background-color: #031e3d; 
-            color: #ffffff; 
-            padding: 20px 16px; 
-            display: flex; 
-            flex-direction: column; 
-            flex-shrink: 0; 
-            overflow: hidden; 
-        }
-        .sidebar-header { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            padding-bottom: 20px; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-            margin-bottom: 20px; 
-        }
-        .sidebar-header .material-symbols-outlined {
-             font-size: 32px; 
-             color: #fff; 
-            }
-        .sidebar-header .header-text h3 { 
-            font-size: 13px; 
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            line-height: 1.3; }
-        .sidebar-header .header-text p { 
-            font-size: 10px; 
-            color: #a0aec0; 
-            margin-top: 2px; 
-        }
-        .menu-title { 
-            font-size: 11px; 
-            font-weight: 600; 
-            color: #718096; 
-            padding-left: 10px; 
-            display: block; 
-            margin-bottom: 8px; 
-            margin-top: 10px; 
-        }
-        .menu { 
-            list-style: none;
-            width: 100%; 
-        }
-        .menu li { margin-bottom: 4px; }
-        .menu li a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #b2c2d4; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s ease; }
-        .menu li a .material-symbols-outlined { font-size: 20px; }
-        .menu li a:hover { background-color: rgba(255,255,255,0.07); color: #ffffff; }
-        .menu li.active a { background: linear-gradient(90deg, #1e70e4, #1557b7); color: #ffffff; font-weight: 600; }
-        .menu li.logout a { color: #ff6b6b; margin-top: 10px; }
-        .menu li.logout a:hover { background-color: rgba(255, 107, 107, 0.1); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #0a0a0a; overflow : hidden; margin : 0; }
+        .canvas-container { width: 100%; height: 100vh; display: flex; background: #f8fafc; }
+        /* ===== SIDEBAR ===== */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background-color: #031e3d;
+  color: #ffffff;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.sidebar-header .material-symbols-outlined {
+  font-size: 32px;
+  color: #fff;
+}
+
+.sidebar-header .header-text h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.sidebar-header .header-text p {
+  font-size: 10px;
+  color: #a0aec0;
+  margin-top: 2px;
+}
+
+.menu-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #718096;
+  padding-left: 10px;
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 10px;
+}
+
+.menu {
+  list-style: none;
+  width: 100%;
+}
+
+.menu li {
+  margin-bottom: 4px;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #b2c2d4;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.menu li a .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.menu li a:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+
+.menu li.active a {
+  background: linear-gradient(90deg, #1e70e4, #1557b7);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.menu li.logout a {
+  color: #ff6b6b;
+  margin-top: 10px;
+}
+
+.menu li.logout a:hover {
+  background-color: rgba(255, 107, 107, 0.1);
+}
         .main-content { flex-grow: 1; padding: 40px 50px; display: flex; flex-direction: column; background-color: #f8fafc; overflow-y: auto; }
         .header-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 35px; }
         .title-area h1 { font-size: 28px; color: #1e293b; font-weight: 700; margin-bottom: 5px; }
@@ -110,10 +146,20 @@ $total_data = mysqli_num_rows($result);
         }
         .btn-tambah:hover { background-color: #1e40af; }
         
-        .search-container { position: relative; }
-        .search-input { padding: 12px 16px 12px 40px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; width: 260px; outline: none; background-color: white; transition: border-color 0.2s; font-family: 'Poppins', sans-serif; }
+        /* Modifikasi container agar tombol cari (submit) menyatu rapi */
+        .search-form { display: flex; align-items: center; position: relative; }
+        .search-input { padding: 12px 60px 12px 40px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; width: 280px; outline: none; background-color: white; transition: border-color 0.2s; font-family: 'Poppins', sans-serif; }
         .search-input:focus { border-color: #1d4ed8; }
         .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; pointer-events: none; }
+        
+        /* Desain Tombol Submit Cari Kecil di Dalam Input */
+        .btn-cari { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #1d4ed8; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 500; }
+        .btn-cari:hover { background-color: #1e40af; }
+        
+        /* Tombol Reset pencarian jika sedang menyaring data */
+        .btn-reset { display: inline-block; margin-left: 5px; text-decoration: none; color: #64748b; font-size: 12px; }
+        .btn-reset:hover { color: #ef233c; }
+
         .table-container { background-color: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { color: #1e293b; font-weight: 600; font-size: 14px; padding: 16px; border-bottom: 2px solid #edf2f7; }
@@ -121,7 +167,6 @@ $total_data = mysqli_num_rows($result);
         tr:last-child td { border-bottom: none; }
         .col-no { width: 5%; } .col-role { width: 10%; } .col-nama { width: 22%; } .col-username { width: 20%; } .col-password { width: 18%; } .col-telp { width: 18%; } .col-aksi { width: 12%; text-align: center; } th.col-aksi { text-align: center; }
         .action-buttons { display: flex; gap: 8px; justify-content: center; align-items: center; }
-        
         .btn-action { width: 36px; height: 36px; border: none; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: white !important; font-size: 14px; text-decoration: none; line-height: 1; transition: opacity 0.2s, transform 0.1s; flex-shrink: 0; }
         .btn-action:hover { opacity: 0.85; } .btn-action:active { transform: scale(0.95); }
         .btn-edit { background-color: #f59e0b; } .btn-delete { background-color: #ef233c; }
@@ -132,28 +177,31 @@ $total_data = mysqli_num_rows($result);
 
 <div class="canvas-container">
     <div class="sidebar">
-        <div class="sidebar-header">
-            <span class="material-symbols-outlined">school</span>
-            <div class="header-text">
-                <h3>SISTEM INFORMASI</h3>
-                <p>KURSUS &amp; ABSENSI</p>
+            <div class="sidebar-header">
+                <span class="material-symbols-outlined">school</span>
+                <div class="header-text">
+                    <h3>SISTEM INFORMASI</h3>
+                    <p>KURSUS &amp; ABSENSI</p>
+                </div>
             </div>
+
+            <span class="menu-title">MAIN MENU</span>
+            <ul class="menu">
+                <li ><a href="dashboard.php"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
+                <li><a href="laporan_guru.php"><span class="material-symbols-outlined">calendar_month</span> Laporan Guru</a></li>
+                <li><a href="laporan_murid.php"><span class="material-symbols-outlined">description</span> Laporan Murid</a></li>
+                <li><a href="pertemuan.php"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
+                <li><a href="absensi_admin.php"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
+                <li class="active"><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
+                <li><a href="kontrolmurid.php"><span class="material-symbols-outlined">groups</span> Murid</a></li>
+            </ul>
+
+            <span class="menu-title" style="margin-top: auto; padding-top: 20px;">AKUN</span>
+            <ul class="menu">
+                <li><a href="#"><span class="material-symbols-outlined">manage_accounts</span> Profil</a></li>
+                <li class="logout"><a href="#"><span class="material-symbols-outlined">logout</span> Logout</a></li>
+            </ul>
         </div>
-        <span class="menu-title">MAIN MENU</span>
-        <ul class="menu">
-            <li><a href="dashboard.php"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
-            <li><a href="laporan_guru.php"><span class="material-symbols-outlined">calendar_month</span> Laporan Guru</a></li>
-            <li><a href="#"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
-            <li><a href="#"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
-            <li class="active"><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
-            <li><a href="kontrolmurid.php"><span class="material-symbols-outlined">groups</span> Murid</a></li>
-        </ul>
-        <span class="menu-title" style="margin-top: auto; padding-top: 20px;">AKUN</span>
-        <ul class="menu">
-            <li><a href="#"><span class="material-symbols-outlined">manage_accounts</span> Profil</a></li>
-            <li class="logout"><a href="#"><span class="material-symbols-outlined">logout</span> Logout</a></li>
-        </ul>
-    </div>
 
     <div class="main-content">
         <div class="header-section">
@@ -165,10 +213,16 @@ $total_data = mysqli_num_rows($result);
                 <a href="tambahguru.php" class="btn-tambah">
                     <i class="fa-solid fa-plus"></i> Tambah Guru
                 </a>
-                <div class="search-container">
+                
+                <form action="kontrolguru.php" method="GET" class="search-form">
                     <i class="fa-solid fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Cari guru..." id="searchInput">
-                </div>
+                    <input type="text" name="keyword" class="search-input" placeholder="Cari guru..." value="<?= htmlspecialchars($keyword); ?>">
+                    <button type="submit" class="btn-cari">Cari</button>
+                    
+                    <!--<?php if(!empty($keyword)): ?>
+                        <a href="kontrolguru.php" class="btn-reset" title="Bersihkan Pencarian"><i class="fa-solid fa-circle-xmark"></i></a>
+                    <?php endif; ?>-->
+                </form>
             </div>
         </div>
 
@@ -213,7 +267,7 @@ $total_data = mysqli_num_rows($result);
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='7' style='text-align:center; color:#94a3b8; padding: 40px;'>Belum ada data guru.</td></tr>";
+                        echo "<tr><td colspan='7' style='text-align:center; color:#94a3b8; padding: 40px;'>Data guru tidak ditemukan.</td></tr>";
                     }
                     ?>
                 </tbody>

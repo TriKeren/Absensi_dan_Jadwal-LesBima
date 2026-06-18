@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
         die("Data guru tidak ditemukan!");
     }
 } else {
-    header("Location: cobaeditpisah.php");
+    header("Location: kontrolguru.php");
     exit;
 }
 
@@ -33,7 +33,7 @@ if (isset($_POST['btn_update'])) {
         $query_update = "UPDATE guru SET id_role='$id_role', username='$username', nama_guru='$nama_guru', no_telp='$no_telp' WHERE id_guru=$id_guru";
     }
     if (mysqli_query($koneksi, $query_update)) {
-        header("Location: cobaeditpisah.php");
+        header("Location: kontrolguru.php");
         exit;
     } else {
         echo "<script>alert('Gagal mengupdate data!');</script>";
@@ -99,7 +99,7 @@ if (isset($_POST['btn_update'])) {
         </div>
         
         <div class="form-footer">
-            <a href="cobaeditpisah.php" class="btn-batal">Batal</a>
+            <a href="kontrolguru.php" class="btn-batal">Batal</a>
             <button type="submit" name="btn_update" class="btn-simpan">Simpan Perubahan</button>
         </div>
     </form>
