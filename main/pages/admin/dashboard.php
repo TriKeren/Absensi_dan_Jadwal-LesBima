@@ -26,6 +26,7 @@
             <ul class="menu">
                 <li class="active"><a href="#"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
                 <li><a href="laporan_guru.php"><span class="material-symbols-outlined">calendar_month</span> Laporan Guru</a></li>
+                <li><a href="laporan_murid.php"><span class="material-symbols-outlined">description</span> Laporan Murid</a></li>
                 <li><a href="#"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
                 <li><a href="#"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
                 <li><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
