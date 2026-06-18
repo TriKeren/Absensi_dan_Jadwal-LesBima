@@ -142,8 +142,8 @@ $total_data = mysqli_num_rows($result);
         <span class="menu-title">MAIN MENU</span>
         <ul class="menu">
             <li><a href="dashboard.php"><span class="material-symbols-outlined">home</span> Dashboard</a></li>
-            <li><a href="#"><span class="material-symbols-outlined">calendar_month</span> Jadwal</a></li>
-            <li><a href="pertemuan.php"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
+            <li><a href="laporan_guru.php"><span class="material-symbols-outlined">calendar_month</span> Laporan Guru</a></li>
+            <li><a href="#"><span class="material-symbols-outlined">description</span> Pertemuan</a></li>
             <li><a href="#"><span class="material-symbols-outlined">fact_check</span> Absensi</a></li>
             <li class="active"><a href="kontrolguru.php"><span class="material-symbols-outlined">person_pin</span> Guru</a></li>
             <li><a href="kontrolmurid.php"><span class="material-symbols-outlined">groups</span> Murid</a></li>
